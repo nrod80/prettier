@@ -3641,6 +3641,11 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
   const fun = path.getValue();
   const paramsField = fun.parameters ? "parameters" : "params";
 
+  const openParen =
+    fun.type !== "ArrowFunctionExpression" && options.openParenSpacing
+      ? " ("
+      : "(";
+
   const typeParams = printTypeParams
     ? printFunctionTypeParameters(path, options, print)
     : "";
@@ -3657,7 +3662,7 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
   if (printed.length === 0) {
     return concat([
       typeParams,
-      "(",
+      openParen,
       comments.printDanglingComments(
         path,
         options,
@@ -3692,7 +3697,7 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
     return group(
       concat([
         removeLines(typeParams),
-        "(",
+        openParen,
         join(", ", printed.map(removeLines)),
         ")"
       ])
@@ -3707,7 +3712,7 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
   //   c
   // }) {}
   if (shouldHugArguments(fun)) {
-    return concat([typeParams, "(", join(", ", printed), ")"]);
+    return concat([typeParams, openParen, join(", ", printed), ")"]);
   }
 
   const parent = path.getParentNode();
@@ -3764,7 +3769,7 @@ function printFunctionParams(path, print, options, expandArg, printTypeParams) {
 
   return concat([
     typeParams,
-    "(",
+    openParen,
     indent(concat([softline, join(concat([",", line]), printed)])),
     ifBreak(
       canHaveTrailingComma && shouldPrintComma(options, "all") ? "," : ""

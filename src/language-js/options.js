@@ -31,6 +31,12 @@ module.exports = {
     default: false,
     description: "Put > on the last line instead of at a new line."
   },
+  openParenSpacing: {
+    type: "boolean",
+    category: CATEGORY_JAVASCRIPT,
+    description: "Put a space before parenthesis in function declaration",
+    default: false
+  },
   semi: {
     since: "1.0.0",
     category: CATEGORY_JAVASCRIPT,
